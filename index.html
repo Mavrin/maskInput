@@ -5,9 +5,9 @@
 		<script type="text/javascript" src='numberMask.jquery.js'></script>
 		<script type="text/javascript">
 			$(function(){
-				$('#int').numberMask({beforePoint:2});
-				$('#float').numberMask({type:'float',afterPoint:4,defaultValueInput:'10,1',decimalMark:','});
-				$('#float2').numberMask({type:'float',afterPoint:4,defaultValueInput:'10.1',decimalMark:'.'});
+				$('#int,#float,#float2').numberMask({beforePoint:2});
+				/*$('#float').numberMask({type:'float',afterPoint:4,defaultValueInput:'10,1',decimalMark:','});
+				$('#float2').numberMask({type:'float',afterPoint:4,defaultValueInput:'10.1',decimalMark:'.'});*/
 				$('#word').numberMask({pattern:/^[f]{0,3}$/});
 				$('form').submit(function(){alert('Form submit'); return false;})
 			})
