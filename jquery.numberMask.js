@@ -4,12 +4,12 @@
  * Licensed under the MIT License
  * Authors: Krivlenia Konstantin
  *          krivlenia@gmail.com
- *
+ * Site:  https://github.com/Mavrin/maskInput
  * Date: Wed Nov 11 14:15:24 2011 -0700
  */
 (function($) {
 	$.fn.numberMask = function(options) {
-		var settings = {type:'int',beforePoint:2,afterPoint:2,defaultValueInput:0,decimalMark:'.',pattern:''},
+		var settings = {type:'int',beforePoint:10,afterPoint:2,defaultValueInput:0,decimalMark:'.',pattern:''},
 			onKeyPress = function(e){
 				var k = e.which;
 
