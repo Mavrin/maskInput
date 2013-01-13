@@ -8,6 +8,7 @@
 				$('#int').numberMask({beforePoint:2});
 				$('#float').numberMask({type:'float',afterPoint:4,defaultValueInput:'10,1',decimalMark:','});
 				$('#float2').numberMask({type:'float',afterPoint:4,defaultValueInput:'10.1',decimalMark:'.'});
+				$('#float3').numberMask({pattern:/^\d+\.{0,1}\d*$|^\d+,{0,1}\d*$/});
 				$('#word').numberMask({pattern:/^[f]{0,3}$/});
 				$('form').submit(function(){alert('Form submit'); return false;})
 			})
@@ -19,6 +20,7 @@
 			<tr><td><label for='int'>Type integer mask xx $('#int').numberMask({beforePoint:2});</label></td><td><input id='int' type='text'></td></tr>
 			<tr><td><label for='float'>Type float mask xx,xxxx $('#float').numberMask({type:'float',afterPoint:4,defaultValueInput:'10,1',decimalMark:','});</label></td><td><input id='float' type='text'></td></tr>
 			<tr><td><label for='float2'>Type float mask xx.xxxx $('#float2').numberMask({type:'float',afterPoint:4,defaultValueInput:'10.1',decimalMark:'.'});</label></td><td><input id='float2' type='text'></td></tr>
+			<tr><td><label for='float3'>Type float mask separator may be '.' or ','   $('#float3').numberMask({pattern:/^\d+\.{0,1}\d*$|^\d+,{0,1}\d*$/});</label></td><td><input id='float3' type='text'></td></tr>
 			<tr><td><label for='word'>regExp $('#float1').numberMask({pattern:/^[f]{0,3}$/}); </label></td><td><input id='word' type='text'></td></tr>
 			<tr><td>&nbsp;</td><td ><input type="submit" value="send"></td></tr>
 		</table>
