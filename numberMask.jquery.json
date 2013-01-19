@@ -1,0 +1,33 @@
+{
+  "name": "numberMask",
+  "title": "jQuery Number Mask",
+  "description": "Plugin for set pattern enter numbers or a certain pattern",
+  "keywords": [
+    "inputs",
+    "form"
+  ],
+  "version": "0.1",
+  "author": {
+    "name": "Konstantin Krivlenia",
+    "url": "https://twitter.com/krivlenia"
+  },
+  "maintainers": [
+    {
+      "name": "Konstantin Krivlenia",
+      "email": "krivlenia@gmail.com"      
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT"      
+    }
+  ],
+  "bugs": "https://github.com/Mavrin/maskInput/issues",
+  "homepage": "https://github.com/Mavrin/maskInput",
+  "docs": "https://github.com/Mavrin/maskInput",
+	"demo":"http://mavrin.github.com/maskInput/",
+  "download": "https://github.com/Mavrin/maskInput/zipball/master",
+  "dependencies": {
+    "jquery": ">=1.4"
+  }
+}
