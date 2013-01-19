@@ -18,11 +18,6 @@
       "email": "krivlenia@gmail.com"      
     }
   ],
-  "licenses": [
-    {
-      "type": "MIT"      
-    }
-  ],
   "bugs": "https://github.com/Mavrin/maskInput/issues",
   "homepage": "https://github.com/Mavrin/maskInput",
   "docs": "https://github.com/Mavrin/maskInput",
