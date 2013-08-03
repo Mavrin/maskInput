@@ -31,7 +31,8 @@
 							if(settings.type == 'int') {
 								var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$", "ig");
 							} else if(settings.type == 'float') {
-								var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}\\"+getDecimalMarksString()+"\\d{0,"+settings.afterPoint+"}$", "ig");
+								var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}"+getDecimalMarksString()+"\\d{0,"+settings.afterPoint+"}$", "ig");
+								console.log(re);
 							}
 						}
 						return	re.test(value);
@@ -115,7 +116,8 @@
 								return settings.defaultValueInput;
 						}
 					} else {
-						var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}\\"+getDecimalMarksString()+"\\d{1,"+settings.afterPoint+"}$", "ig");
+						var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}"+getDecimalMarksString()+"\\d{1,"+settings.afterPoint+"}$", "ig");
+						console.log(re);
 						if(re.test(val)) {
 								return val;
 							} else {
@@ -125,10 +127,11 @@
 				}
 			},
 			getDecimalMarksString = function(){
-				var decimalMarksString = settings.decimalMark[0];
+				var decimalMarksString = '(\\'+settings.decimalMark[0];
 				for (i = 1; i < settings.decimalMark.length; i++){
-					decimalMarksString += "|" + settings.decimalMark[i];
+					decimalMarksString += "|\\" + settings.decimalMark[i];
 				}
+				decimalMarksString += ')';
 				console.log(decimalMarksString);
 				return decimalMarksString;
 			}
