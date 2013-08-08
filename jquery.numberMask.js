@@ -32,7 +32,6 @@
 								var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$", "ig");
 							} else if(settings.type == 'float') {
 								var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}"+getDecimalMarksString()+"\\d{0,"+settings.afterPoint+"}$", "ig");
-								console.log(re);
 							}
 						}
 						return	re.test(value);
@@ -117,7 +116,6 @@
 						}
 					} else {
 						var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}"+getDecimalMarksString()+"\\d{1,"+settings.afterPoint+"}$", "ig");
-						console.log(re);
 						if(re.test(val)) {
 								return val;
 							} else {
@@ -132,7 +130,6 @@
 					decimalMarksString += "|\\" + settings.decimalMark[i];
 				}
 				decimalMarksString += ')';
-				console.log(decimalMarksString);
 				return decimalMarksString;
 			}
 		this.bind('keypress',onKeyPress).bind('keyup',onKeyUp).bind('blur',onBlur);
