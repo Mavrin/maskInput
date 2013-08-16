@@ -134,6 +134,10 @@
 			}
 		this.bind('keypress',onKeyPress).bind('keyup',onKeyUp).bind('blur',onBlur);
 		if (options) {
+			if (options.decimalMark){
+				if ($.type(options.decimalMark) === "string")
+					options.decimalMark = [options.decimalMark];
+			}
 			$.extend(settings, options);
 		}
 		return this;
