@@ -9,7 +9,7 @@
  */
 (function($) {
 	$.fn.numberMask = function(options) {
-		var settings = {type:'int',beforePoint:10,afterPoint:2,defaultValueInput:0,decimalMark:'.',pattern:''},
+		var settings = {type:'int',beforePoint:10,afterPoint:2,defaultValueInput:0,decimalMark:['.'],pattern:''},
 			onKeyPress = function(e){
 				var k = e.which;
 
@@ -31,7 +31,7 @@
 							if(settings.type == 'int') {
 								var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$", "ig");
 							} else if(settings.type == 'float') {
-								var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}\\"+settings.decimalMark+"\\d{0,"+settings.afterPoint+"}$", "ig");
+								var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}"+getDecimalMarksString()+"\\d{0,"+settings.afterPoint+"}$", "ig");
 							}
 						}
 						return	re.test(value);
@@ -115,7 +115,7 @@
 								return settings.defaultValueInput;
 						}
 					} else {
-						var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}\\"+settings.decimalMark+"\\d{1,"+settings.afterPoint+"}$", "ig");
+						var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}"+getDecimalMarksString()+"\\d{1,"+settings.afterPoint+"}$", "ig");
 						if(re.test(val)) {
 								return val;
 							} else {
@@ -123,9 +123,21 @@
 						}
 					}
 				}
+			},
+			getDecimalMarksString = function(){
+				var decimalMarksString = '(\\'+settings.decimalMark[0];
+				for (i = 1; i < settings.decimalMark.length; i++){
+					decimalMarksString += "|\\" + settings.decimalMark[i];
+				}
+				decimalMarksString += ')';
+				return decimalMarksString;
 			}
 		this.bind('keypress',onKeyPress).bind('keyup',onKeyUp).bind('blur',onBlur);
 		if (options) {
+			if (options.decimalMark){
+				if ($.type(options.decimalMark) === "string")
+					options.decimalMark = [options.decimalMark];
+			}
 			$.extend(settings, options);
 		}
 		return this;
