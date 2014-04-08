@@ -7,45 +7,43 @@
  * Site:  https://github.com/Mavrin/maskInput
  * Date: Wed Nov 11 14:15:24 2011 -0700
  */
-;(function($) {
-    $.fn.numberMask = function(options) {
-        var settings = {type:'int',beforePoint:10,afterPoint:2,defaultValueInput:0,decimalMark:['.'],pattern:''},
-            onKeyPress = function(e){
-                var k = e.which;
+;
+(function ($) {
+    $.fn.numberMask = function (options) {
+        var settings = {type: 'int', beforePoint: 10, afterPoint: 2, defaultValueInput: 0, decimalMark: ['.'], pattern: ''},
+            onKeyPress = function (e) {
+                var k = e.which,re;
 
-                if (e.ctrlKey || e.altKey || e.metaKey || k<32) {//Ignore
+                if (e.ctrlKey || e.altKey || e.metaKey || k < 32) {//Ignore
                     return true;
                 } else if (k) {
                     var c = String.fromCharCode(k);
                     var value = e.target.value;
                     var selectionParam = getSelection(e.target);
-                    if(selectionParam.statusSelection) {
-                        value = value.substring(0,selectionParam.start) + c + value.substring(selectionParam.end);
-                    } else {
-                        value += c;
-                    }
+                    value = value.substring(0, selectionParam.start) + c + value.substring(selectionParam.end);
 
-                    if((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
-                        var re = settings.pattern;
+
+                    if ((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
+                        re = settings.pattern;
                     } else {
-                        if(settings.type == 'int') {
-                            var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$", "ig");
-                        } else if(settings.type == 'float') {
-                            var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}"+getDecimalMarksString()+"\\d{0,"+settings.afterPoint+"}$", "ig");
+                        if (settings.type == 'int') {
+                            re = new RegExp("^\\d{1," + settings.beforePoint + "}$", "ig");
+                        } else if (settings.type == 'float') {
+                            re = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$", "ig");
                         }
                     }
-                    return	re.test(value);
+                    return    re.test(value);
                 }
             },
-            onKeyUp = function(e) {
+            onKeyUp = function (e) {
                 var input = $(e.target);
-                if(e.which == 13 ||e.which == 86) {
+                if (e.which == 13 || e.which == 86) {
                     input.val(formattedNumber(input));
                 }
             },
-            getSelection = function(el) {
+            getSelection = function (el) {
                 var start = 0, end = 0, normalizedValue, range,
-                    textInputRange, len, endRange,statusSelection = false;
+                    textInputRange, len, endRange, statusSelection = false;
 
                 if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
                     start = el.selectionStart;
@@ -82,41 +80,41 @@
                         }
                     }
                 }
-                if((start-end)!=0) {
+                if ((start - end) != 0) {
                     statusSelection = true;
                 }
                 return {
                     start: start,
                     end: end,
-                    statusSelection :statusSelection
+                    statusSelection: statusSelection
                 };
             },
-            onBlur = function(e) {
+            onBlur = function (e) {
                 var input = $(e.target);
-                if(input.val() != '') {
+                if (input.val() != '') {
                     input.val(formattedNumber(input));
                 }
             },
-            formattedNumber = function($input) {
-                var val = $input.val();
-                if((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
-                    var re = settings.pattern;
-                    if(re.test(val)) {
+            formattedNumber = function ($input) {
+                var val = $input.val(),re;
+                if ((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
+                    re = settings.pattern;
+                    if (re.test(val)) {
                         return val;
                     } else {
                         return settings.defaultValueInput;
                     }
                 } else {
-                    if(settings.type == 'int') {
-                        var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$", "ig");
-                        if(re.test(val)) {
+                    if (settings.type == 'int') {
+                        re = new RegExp("^\\d{1," + settings.beforePoint + "}$", "ig");
+                        if (re.test(val)) {
                             return val;
                         } else {
                             return settings.defaultValueInput;
                         }
                     } else {
-                        var re = new RegExp("^\\d{1,"+settings.beforePoint+"}$|^\\d{1,"+settings.beforePoint+"}"+getDecimalMarksString()+"\\d{1,"+settings.afterPoint+"}$", "ig");
-                        if(re.test(val)) {
+                        re = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{1," + settings.afterPoint + "}$", "ig");
+                        if (re.test(val)) {
                             return val;
                         } else {
                             return settings.defaultValueInput;
@@ -124,17 +122,17 @@
                     }
                 }
             },
-            getDecimalMarksString = function(){
-                var decimalMarksString = '(\\'+settings.decimalMark[0];
-                for (i = 1; i < settings.decimalMark.length; i++){
+            getDecimalMarksString = function () {
+                var decimalMarksString = '(\\' + settings.decimalMark[0];
+                for (var i = 1; i < settings.decimalMark.length; i++) {
                     decimalMarksString += "|\\" + settings.decimalMark[i];
                 }
                 decimalMarksString += ')';
                 return decimalMarksString;
-            }
-        this.bind('keypress',onKeyPress).bind('keyup',onKeyUp).bind('blur',onBlur);
+            };
+        this.bind('keypress', onKeyPress).bind('keyup', onKeyUp).bind('blur', onBlur);
         if (options) {
-            if (options.decimalMark){
+            if (options.decimalMark) {
                 if ($.type(options.decimalMark) === "string")
                     options.decimalMark = [options.decimalMark];
             }
