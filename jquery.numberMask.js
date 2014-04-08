@@ -1,11 +1,10 @@
 /*!
- * jQuery numberMask Plugin v0.1.2
+ * jQuery numberMask Plugin v0.1.3
  *
  * Licensed under the MIT License
- * Authors: Krivlenia Konstantin
+ * Authors: Konstantin Krivlenia
  *          krivlenia@gmail.com
  * Site:  https://github.com/Mavrin/maskInput
- * Date: Wed Nov 11 14:15:24 2011 -0700
  */
 ;
 (function ($) {
@@ -32,7 +31,7 @@
                             re = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$", "ig");
                         }
                     }
-                    return    re.test(value);
+                    return  re.test(value);
                 }
             },
             onKeyUp = function (e) {
@@ -130,6 +129,7 @@
                 decimalMarksString += ')';
                 return decimalMarksString;
             };
+
         this.bind('keypress', onKeyPress).bind('keyup', onKeyUp).bind('blur', onBlur);
         if (options) {
             if (options.decimalMark) {
