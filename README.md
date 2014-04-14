@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/Mavrin/maskInput.svg?branch=master)](https://travis-ci.org/Mavrin/maskInput)
 You see example
 http://mavrin.github.com/maskInput/
 
