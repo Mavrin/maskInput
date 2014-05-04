@@ -6,20 +6,24 @@ function generateEvent(char, expectResult, keyCode) {
 QUnit.config.testTimeout = 10000;
 function testKeyPress(values, configNumberMask, nameTest) {
     "use strict";
-    test(nameTest, function () {
-        expect(values.length);
-        var $input = $("<input/>").numberMask(configNumberMask);
-        $.each(values, function (index, value) {
-            $input.one("keypress", function (e) {
-                var char = String.fromCharCode(e.which);
-                if (e.expectResult && char) {
-                    $input.val($input.val() + char);
-                }
-                equal(e.result, e.expectResult, char + ' ' + (e.expectResult ? 'allow' : 'disallow'));
+    var currentVal = '';
+    values.forEach(function(value, index) {
+        (function(currentVal,index, value){
+            test(nameTest + index, function () {
+                var $input = $("<input/>").val(currentVal).numberMask(configNumberMask);
+                ok(true,'value from input ' + $input.val());
+                $input.one("keypress", function (e) {
+                    var char = String.fromCharCode(e.which);
+                    equal(e.result, e.expectResult, char + ' ' + (e.expectResult ? 'allow' : 'disallow'));
+                });
+                value.beforeTrigger &&  value.beforeTrigger($input);
+                $input.trigger(generateEvent(value.char, value.expectResult, value.keyCode));
             });
-            value.beforeTrigger &&  value.beforeTrigger($input);
-            $input.trigger(generateEvent(value.char, value.expectResult, value.keyCode));
-        });
+        })(currentVal, index, value);
+
+        if (value.expectResult && value.char) {
+            currentVal += value.char;
+        }
     });
 }
 var values = [
@@ -44,6 +48,7 @@ var values = [
         expectResult: false
     }
 ];
+
 testKeyPress(values, {beforePoint: 2}, "check integer mask");
 values = [
     {
@@ -140,10 +145,21 @@ values = [
     },
     {
         char: 4,
+        beforeTrigger:function($input){
+            "use strict";
+            var val = $input.val();
+            $input.val(val.substr(0, val.length -1));
+        },
         expectResult: true
     },
     {
         char: ',',
+        //todo should rework
+        beforeTrigger:function($input){
+            "use strict";
+            var val = $input.val();
+            $input.val(val.substr(0, val.length -1));
+        },
         expectResult: false
     }
 ];

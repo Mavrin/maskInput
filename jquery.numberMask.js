@@ -1,5 +1,5 @@
 /*!
- * jQuery numberMask Plugin v0.1.3
+ * jQuery numberMask Plugin v0.9.0
  *
  * Licensed under the MIT License
  * Authors: Konstantin Krivlenia
@@ -10,8 +10,9 @@
 (function ($) {
     $.fn.numberMask = function (options) {
         var settings = {type: 'int', beforePoint: 10, afterPoint: 2, defaultValueInput: 0, decimalMark: ['.'], pattern: ''},
+            regExp,
             onKeyPress = function (e) {
-                var k = e.which,re;
+                var k = e.which;
 
                 if (e.ctrlKey || e.altKey || e.metaKey || k < 32) {//Ignore
                     return true;
@@ -20,18 +21,7 @@
                     var value = e.target.value;
                     var selectionParam = getSelection(e.target);
                     value = value.substring(0, selectionParam.start) + c + value.substring(selectionParam.end);
-
-
-                    if ((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
-                        re = settings.pattern;
-                    } else {
-                        if (settings.type == 'int') {
-                            re = new RegExp("^\\d{1," + settings.beforePoint + "}$", "ig");
-                        } else if (settings.type == 'float') {
-                            re = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$", "ig");
-                        }
-                    }
-                    return  re.test(value);
+                    return  regExp.test(value);
                 }
             },
             onKeyUp = function (e) {
@@ -95,30 +85,11 @@
                 }
             },
             formattedNumber = function ($input) {
-                var val = $input.val(),re;
-                if ((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
-                    re = settings.pattern;
-                    if (re.test(val)) {
-                        return val;
-                    } else {
-                        return settings.defaultValueInput;
-                    }
+                var val = $input.val();
+                if (regExp.test(val)) {
+                    return val;
                 } else {
-                    if (settings.type == 'int') {
-                        re = new RegExp("^\\d{1," + settings.beforePoint + "}$", "ig");
-                        if (re.test(val)) {
-                            return val;
-                        } else {
-                            return settings.defaultValueInput;
-                        }
-                    } else {
-                        re = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{1," + settings.afterPoint + "}$", "ig");
-                        if (re.test(val)) {
-                            return val;
-                        } else {
-                            return settings.defaultValueInput;
-                        }
-                    }
+                    return settings.defaultValueInput;
                 }
             },
             getDecimalMarksString = function () {
@@ -136,8 +107,19 @@
                 if ($.type(options.decimalMark) === "string")
                     options.decimalMark = [options.decimalMark];
             }
+
             $.extend(settings, options);
         }
+        if ((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
+            regExp = settings.pattern;
+        } else {
+            if (settings.type == 'int') {
+                regExp = new RegExp("^\\d{1," + settings.beforePoint + "}$", "ig");
+            } else {
+                regExp = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$", "ig");
+            }
+        }
+
         return this;
     }
 })(jQuery);
