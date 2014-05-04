@@ -114,9 +114,9 @@
             regExp = settings.pattern;
         } else {
             if (settings.type == 'int') {
-                regExp = new RegExp("^\\d{1," + settings.beforePoint + "}$", "ig");
+                regExp = new RegExp("^\\d{1," + settings.beforePoint + "}$");
             } else {
-                regExp = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$", "ig");
+                regExp = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$");
             }
         }
 
