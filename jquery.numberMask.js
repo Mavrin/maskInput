@@ -1,5 +1,5 @@
 /*!
- * jQuery numberMask Plugin v0.9.0
+ * jQuery numberMask Plugin v0.10.0
  *
  * Licensed under the MIT License
  * Authors: Konstantin Krivlenia
