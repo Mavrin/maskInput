@@ -20,7 +20,7 @@ http://mavrin.github.com/maskInput/
        npm install
     ```
 2. Run gulp
-    ```bash
+    ```
         gulp
     ```
 
