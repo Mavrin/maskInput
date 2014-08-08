@@ -164,3 +164,44 @@ values = [
     }
 ];
 testKeyPress(values, {decimalMark:['.',','], type: 'float'}, "check decimal separator array  mask");
+
+
+values = [
+    {
+        char: '-',
+        expectResult: true
+    },
+    {
+        char: 1,
+        expectResult: true
+    },
+    {
+        char: 3,
+        expectResult: true
+    },
+    {
+        char: 4,
+        expectResult: true
+    },
+    {
+        char: ',',
+        expectResult: false
+    },
+    {
+        char: '.',
+        expectResult: true
+    },
+    {
+        char: 4,
+        expectResult: true
+    },
+    {
+        char: 4,
+        expectResult: true
+    },
+    {
+        char: 5,
+        expectResult: false
+    }
+];
+testKeyPress(values, {beforePoint: 3, afterPoint: 2, decimalMark:'.', allowNegative: true, type: 'float'}, "check negative float mask");

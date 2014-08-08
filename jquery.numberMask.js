@@ -1,5 +1,5 @@
 /*!
- * jQuery numberMask Plugin v0.9.0
+ * jQuery numberMask Plugin v0.10.0
  *
  * Licensed under the MIT License
  * Authors: Konstantin Krivlenia
@@ -9,7 +9,10 @@
 ;
 (function ($) {
     $.fn.numberMask = function (options) {
-        var settings = {type: 'int', beforePoint: 10, afterPoint: 2, defaultValueInput: 0, decimalMark: ['.'], pattern: ''},
+        var settings = {
+                type: 'int', beforePoint: 10, afterPoint: 2, defaultValueInput: 0,
+                allowNegative: false, decimalMark: ['.'], pattern: ''
+            },
             regExp,
             onKeyPress = function (e) {
                 var k = e.which;
@@ -21,7 +24,7 @@
                     var value = e.target.value;
                     var selectionParam = getSelection(e.target);
                     value = value.substring(0, selectionParam.start) + c + value.substring(selectionParam.end);
-                    return  regExp.test(value);
+                    return (settings.allowNegative && value === '-') || regExp.test(value);
                 }
             },
             onKeyUp = function (e) {
@@ -113,10 +116,14 @@
         if ((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
             regExp = settings.pattern;
         } else {
+            var negRegExpPart = settings.allowNegative ? "[-]?" : '',
+                intRegExp = "^" + negRegExpPart + "\\d{1," + settings.beforePoint + "}$",
+                decimalRegExp = "^" + negRegExpPart + "\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$";
+
             if (settings.type == 'int') {
-                regExp = new RegExp("^\\d{1," + settings.beforePoint + "}$");
+                regExp = new RegExp(intRegExp);
             } else {
-                regExp = new RegExp("^\\d{1," + settings.beforePoint + "}$|^\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$");
+                regExp = new RegExp(intRegExp + "|" + decimalRegExp);
             }
         }
 
