@@ -16,10 +16,8 @@ http://mavrin.github.com/maskInput/
 
 # Build this project.
 1. Install gulp and gulp plugins
-    ```bash
-        npm install gulp
-        npm install gulp-uglify
-        npm install gulp-concat
+    ```
+       npm install
     ```
 2. Run gulp
     ```bash
