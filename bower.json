@@ -1,7 +1,7 @@
 {
-    "name": "number-mask",
+    "name": "jquery-number-mask",
     "version": "1.0.0",
-    "description": "Plugin for set pattern enter numbers or a certain pattern",
+    "description": "jQuery plugin for set pattern enter numbers or a certain pattern",
     "keywords": ["jquery-plugin","jquery plugin","input", "form", "mask"],
     "main":[
         "dist/jquery.numberMask.js",
