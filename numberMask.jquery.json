@@ -3,7 +3,7 @@
   "title": "jQuery Number Mask",
   "description": "Plugin for set pattern enter numbers or a certain pattern",
   "keywords": ["input", "form", "mask"],
-  "version": "0.10.0",
+  "version": "1.0.0",
   "author": {
     "name": "Konstantin Krivlenia",
     "url": "https://twitter.com/krivlenia"
