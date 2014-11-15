@@ -2,7 +2,7 @@
     "name": "number-mask",
     "version": "1.0.0",
     "description": "Plugin for set pattern enter numbers or a certain pattern",
-    "keywords": ["jquery plugin","input", "form", "mask"],
+    "keywords": ["jquery-plugin","jquery plugin","input", "form", "mask"],
     "main":[
         "dist/jquery.numberMask.js",
         "dist/jquery.numberMask.js.map"

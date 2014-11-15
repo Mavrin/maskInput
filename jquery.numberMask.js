@@ -118,4 +118,4 @@ $.fn.numberMask = function (options) {
     }
 
     return this;
-}
+};

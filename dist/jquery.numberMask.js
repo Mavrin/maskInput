@@ -1,9 +1,145 @@
 /*!
- * jQuery numberMask Plugin v0.10.0
+ * jQuery numberMask Plugin v1.0.0
  *
  * Licensed under the MIT License
  * Authors: Konstantin Krivlenia
  *          krivlenia@gmail.com
  * Site:  https://github.com/Mavrin/maskInput
  */
-!function(e){e.fn.numberMask=function(t){var n,a={type:"int",beforePoint:10,afterPoint:2,defaultValueInput:0,allowNegative:!1,decimalMark:["."],pattern:""},r=function(e){var t=e.which;if(e.ctrlKey||e.altKey||e.metaKey||32>t)return!0;if(t){var r=String.fromCharCode(t),i=e.target.value,l=o(e.target);return i=i.substring(0,l.start)+r+i.substring(l.end),a.allowNegative&&"-"===i||n.test(i)}},i=function(t){var n=e(t.target);(13==t.which||86==t.which)&&n.val(c(n))},o=function(e){var t,n,a,r,i,o=0,l=0,c=!1;return"number"==typeof e.selectionStart&&"number"==typeof e.selectionEnd?(o=e.selectionStart,l=e.selectionEnd):(n=document.selection.createRange(),n&&n.parentElement()==e&&(r=e.value.length,t=e.value.replace(/\r\n/g,"\n"),a=e.createTextRange(),a.moveToBookmark(n.getBookmark()),i=e.createTextRange(),i.collapse(!1),a.compareEndPoints("StartToEnd",i)>-1?o=l=r:(o=-a.moveStart("character",-r),o+=t.slice(0,o).split("\n").length-1,a.compareEndPoints("EndToEnd",i)>-1?l=r:(l=-a.moveEnd("character",-r),l+=t.slice(0,l).split("\n").length-1)))),o-l!=0&&(c=!0),{start:o,end:l,statusSelection:c}},l=function(t){var n=e(t.target);""!=n.val()&&n.val(c(n))},c=function(e){var t=e.val();return n.test(t)?t:a.defaultValueInput},u=function(){for(var e="(\\"+a.decimalMark[0],t=1;t<a.decimalMark.length;t++)e+="|\\"+a.decimalMark[t];return e+=")"};if(this.bind("keypress",r).bind("keyup",i).bind("blur",l),t&&(t.decimalMark&&"string"===e.type(t.decimalMark)&&(t.decimalMark=[t.decimalMark]),e.extend(a,t)),"object"==typeof a.pattern&&a.pattern instanceof RegExp)n=a.pattern;else{var s=a.allowNegative?"[-]?":"",d="^"+s+"\\d{1,"+a.beforePoint+"}$",f="^"+s+"\\d{1,"+a.beforePoint+"}"+u()+"\\d{0,"+a.afterPoint+"}$";n=new RegExp("int"==a.type?d:d+"|"+f)}return this}}(jQuery);
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['jquery'], factory);
+    } if (typeof module === "object" && module.exports) {
+              var $ = require('jquery');
+              module.exports = factory($);
+    }  else {
+        // Browser globals
+        factory(jQuery);
+    }
+}(function ($) {
+
+
+$.fn.numberMask = function (options) {
+    var settings = {
+            type: 'int', beforePoint: 10, afterPoint: 2, defaultValueInput: 0,
+            allowNegative: false, decimalMark: ['.'], pattern: ''
+        },
+        regExp,
+        onKeyPress = function (e) {
+            var k = e.which;
+
+            if (e.ctrlKey || e.altKey || e.metaKey || k < 32) {//Ignore
+                return true;
+            } else if (k) {
+                var c = String.fromCharCode(k);
+                var value = e.target.value;
+                var selectionParam = getSelection(e.target);
+                value = value.substring(0, selectionParam.start) + c + value.substring(selectionParam.end);
+                return (settings.allowNegative && value === '-') || regExp.test(value);
+            }
+        },
+        onKeyUp = function (e) {
+            var input = $(e.target);
+            if (e.which == 13 || e.which == 86) {
+                input.val(formattedNumber(input));
+            }
+        },
+        getSelection = function (el) {
+            var start = 0, end = 0, normalizedValue, range,
+                textInputRange, len, endRange, statusSelection = false;
+
+            if (typeof el.selectionStart == "number" && typeof el.selectionEnd == "number") {
+                start = el.selectionStart;
+                end = el.selectionEnd;
+            } else {
+                range = document.selection.createRange();
+
+                if (range && range.parentElement() == el) {
+                    len = el.value.length;
+                    normalizedValue = el.value.replace(/\r\n/g, "\n");
+
+                    // Create a working TextRange that lives only in the input
+                    textInputRange = el.createTextRange();
+                    textInputRange.moveToBookmark(range.getBookmark());
+
+                    // Check if the start and end of the selection are at the very end
+                    // of the input, since moveStart/moveEnd doesn't return what we want
+                    // in those cases
+                    endRange = el.createTextRange();
+                    endRange.collapse(false);
+
+                    if (textInputRange.compareEndPoints("StartToEnd", endRange) > -1) {
+                        start = end = len;
+                    } else {
+                        start = -textInputRange.moveStart("character", -len);
+                        start += normalizedValue.slice(0, start).split("\n").length - 1;
+
+                        if (textInputRange.compareEndPoints("EndToEnd", endRange) > -1) {
+                            end = len;
+                        } else {
+                            end = -textInputRange.moveEnd("character", -len);
+                            end += normalizedValue.slice(0, end).split("\n").length - 1;
+                        }
+                    }
+                }
+            }
+            if ((start - end) != 0) {
+                statusSelection = true;
+            }
+            return {
+                start: start,
+                end: end,
+                statusSelection: statusSelection
+            };
+        },
+        onBlur = function (e) {
+            var input = $(e.target);
+            if (input.val() != '') {
+                input.val(formattedNumber(input));
+            }
+        },
+        formattedNumber = function ($input) {
+            var val = $input.val();
+            if (regExp.test(val)) {
+                return val;
+            } else {
+                return settings.defaultValueInput;
+            }
+        },
+        getDecimalMarksString = function () {
+            var decimalMarksString = '(\\' + settings.decimalMark[0];
+            for (var i = 1; i < settings.decimalMark.length; i++) {
+                decimalMarksString += "|\\" + settings.decimalMark[i];
+            }
+            decimalMarksString += ')';
+            return decimalMarksString;
+        };
+
+    this.bind('keypress', onKeyPress).bind('keyup', onKeyUp).bind('blur', onBlur);
+    if (options) {
+        if (options.decimalMark) {
+            if ($.type(options.decimalMark) === "string")
+                options.decimalMark = [options.decimalMark];
+        }
+
+        $.extend(settings, options);
+    }
+    if ((typeof settings.pattern == "object") && (settings.pattern instanceof RegExp)) {
+        regExp = settings.pattern;
+    } else {
+        var negRegExpPart = settings.allowNegative ? "[-]?" : '',
+            intRegExp = "^" + negRegExpPart + "\\d{1," + settings.beforePoint + "}$",
+            decimalRegExp = "^" + negRegExpPart + "\\d{1," + settings.beforePoint + "}" + getDecimalMarksString() + "\\d{0," + settings.afterPoint + "}$";
+
+        if (settings.type == 'int') {
+            regExp = new RegExp(intRegExp);
+        } else {
+            regExp = new RegExp(intRegExp + "|" + decimalRegExp);
+        }
+    }
+
+    return this;
+};
+return $;
+}));

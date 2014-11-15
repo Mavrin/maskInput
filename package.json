@@ -2,7 +2,7 @@
   "name": "number-mask",
   "version": "1.0.0",
   "description": "Jwuery plugin for set pattern enter numbers or a certain pattern",
-  "keywords": ["input", "form", "mask"],
+  "keywords": ["jquery-plugin","jquery plugin","input", "form", "mask"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
