@@ -2,15 +2,41 @@
   "name": "number-mask",
   "version": "1.0.0",
   "description": "Jwuery plugin for set pattern enter numbers or a certain pattern",
-  "keywords": ["jquery-plugin","jquery plugin","input", "form", "mask"],
+  "keywords": [
+    "jquery-plugin",
+    "jquery plugin",
+    "input",
+    "form",
+    "mask"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Konstantin Krivlenia",
+    "url": "https://twitter.com/krivlenia"
+  },
+  "maintainers": [
+    {
+      "name": "Konstantin Krivlenia",
+      "email": "krivlenia@gmail.com"
+    }
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Mavrin/maskInput/blob/master/license.txt"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mavrin/maskInput"
   },
   "devDependencies": {
     "gulp": "3.8.10",
     "gulp-concat": "2.4.1",
     "gulp-uglify": "1.0.1",
-    "gulp-sourcemaps":"1.2.8",
+    "gulp-sourcemaps": "1.2.8",
     "karma-script-launcher": "~0.1.0",
     "karma-chrome-launcher": "~0.1.5",
     "karma-firefox-launcher": "~0.1.3",
