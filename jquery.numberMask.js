@@ -17,11 +17,9 @@ $.fn.numberMask = function (options) {
                 return (settings.allowNegative && value === '-') || regExp.test(value);
             }
         },
-        onKeyUp = function (e) {
-            var input = $(e.target);
-            if (e.which == 13 || e.which == 86) {
-                input.val(formattedNumber(input));
-            }
+        onInput = function (e) {
+            var input = $(e.currentTarget);
+            input.val(formattedNumber(input));
         },
         getSelection = function (el) {
             var start = 0, end = 0, normalizedValue, range,
@@ -71,12 +69,6 @@ $.fn.numberMask = function (options) {
                 statusSelection: statusSelection
             };
         },
-        onBlur = function (e) {
-            var input = $(e.target);
-            if (input.val() != '') {
-                input.val(formattedNumber(input));
-            }
-        },
         formattedNumber = function ($input) {
             var val = $input.val();
             if (regExp.test(val)) {
@@ -94,7 +86,7 @@ $.fn.numberMask = function (options) {
             return decimalMarksString;
         };
 
-    this.bind('keypress', onKeyPress).bind('keyup', onKeyUp).bind('blur', onBlur);
+    this.bind('keypress', onKeyPress).bind('input', onInput);
     if (options) {
         if (options.decimalMark) {
             if ($.type(options.decimalMark) === "string")
