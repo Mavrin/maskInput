@@ -9,6 +9,7 @@
     "form",
     "mask"
   ],
+  "main": "dist/jquery.numberMask.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
